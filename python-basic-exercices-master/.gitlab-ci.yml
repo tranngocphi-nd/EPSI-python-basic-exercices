@@ -1,0 +1,19 @@
+image: "python:3.7" #commands to run in the Docker container before starting each job.
+before_script:
+  - python --version
+  - pip install -r requirements.txt # different stages in the pipeline
+stages:
+  - Analysis
+  - Test
+pylint:
+  image: "python:latest"
+  stage: Analysis
+  script:
+    - pip install pylint
+    - pylint -d W0401 *.py
+pytest:
+  image: "python:latest"
+  stage: Test
+  script:
+    - pip install pytest
+    - pytest -v
